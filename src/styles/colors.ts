@@ -1,0 +1,17 @@
+const colors = {
+  TITLE: '#fff',
+  PRIMARY: '#021D46',
+  SECONDARY: '#137DBC',
+  CARD_ACTIVE: 'rgb(216,216,216)',
+  CARD_ACTIVE_TITLE: 'rgb(153,153,153)',
+  CARD_ACTIVE_CONTENT: 'rgb(51,51,51)',
+  CARD_INACTIVE_TITLE: 'rgb(83,145,178)',
+  CARD_INACTIVE_CONTENT: 'rgb(81,143,176)',
+  CARD_INACTIVE: 'rgb(112,173,207)',
+  ICON_ACTIVE: 'rgb(253,148,38)',
+  ICON_INACTIVE: 'rgb(142,142,147)',
+  CONFIG_TITLE: 'rgb(51,48,41)',
+  CONFIG_BUTTON_TITLE: 'rgb(20,57,119)',
+};
+
+export default colors;
