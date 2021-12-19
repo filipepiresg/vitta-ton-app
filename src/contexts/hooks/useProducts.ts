@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
-import SplashScreen from 'react-native-splash-screen';
 
-import { Product, ProductContext } from '~/@types/products';
-import api, { Endpoints } from '~/services/api';
+import { Product, ProductContext } from '../../@types/products';
+import api, { Endpoints } from '../../services/api';
 
 export default function useProducts(): ProductContext {
   const [state, setState] = useState<{ loading: boolean; products: Product[] }>({
@@ -10,7 +9,7 @@ export default function useProducts(): ProductContext {
     loading: true,
   });
 
-  const fetchProducts = async (page = 0) => {
+  const fetchProducts = async () => {
     try {
       setState((_state) => ({
         ..._state,
@@ -19,7 +18,10 @@ export default function useProducts(): ProductContext {
       const { data: _products } = await api.get<Product[]>(Endpoints.PRODUCTS);
 
       setState((_state) => ({
-        products: page > 0 ? [..._state.products, ..._products] : _products,
+        products: _products.map((product) => ({
+          ...product,
+          available: Math.floor(Math.random() * 6),
+        })),
         loading: false,
       }));
     } catch (error) {
@@ -29,16 +31,12 @@ export default function useProducts(): ProductContext {
         ..._state,
         loading: false,
       }));
-    } finally {
-      SplashScreen.hide();
     }
   };
 
   useEffect(() => {
     (async () => {
       await fetchProducts();
-
-      SplashScreen.hide();
     })();
   }, []);
 

@@ -1,7 +1,6 @@
-import React, { createContext, ReactNode } from 'react';
+import React, { createContext } from 'react';
 
-import { ProductContext } from '~/@types/products';
-
+import { ProductContext } from '../@types/products';
 import useProducts from './hooks/useProducts';
 
 const Context = createContext<ProductContext>({
@@ -11,14 +10,10 @@ const Context = createContext<ProductContext>({
   loading: true,
 });
 
-export type Props = {
-  children: ReactNode;
-};
-
-function ProductsProvider({ children }: Props) {
+const ProductsProvider: React.FC = ({ children }) => {
   const context = useProducts();
 
   return <Context.Provider value={context}>{children}</Context.Provider>;
-}
+};
 
 export { Context, ProductsProvider };

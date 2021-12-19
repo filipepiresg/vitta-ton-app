@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Chart: React.FC = () => {
+const Products: React.FC = () => {
   return <Container />;
 };
 
-export default Chart;
+export default Products;

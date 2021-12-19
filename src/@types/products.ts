@@ -1,9 +1,14 @@
 export type Product = {
   id: number;
-  name: string;
+  title: string;
   description: string;
-  value: number;
-  image_url: string | string[];
+  price: number;
+  image: string | string[];
+  available: number;
+  rating: {
+    rate: number;
+    count: number;
+  };
 };
 
 export interface ProductContext {
