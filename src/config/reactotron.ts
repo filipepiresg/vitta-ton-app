@@ -9,8 +9,7 @@ import { Constants } from '../common';
 
 declare global {
   interface Console {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    tron: any;
+    tron: typeof Reactotron;
   }
 }
 
@@ -29,7 +28,8 @@ const reactotron = Reactotron.configure({
   })
   .connect();
 
-console.log('[REACTOTRON] IP for Reactotron:', scriptHostname);
 console.tron = reactotron;
+console.log('[REACTOTRON] IP for Reactotron:', scriptHostname);
+console.tron.clear;
 
 export default reactotron;
