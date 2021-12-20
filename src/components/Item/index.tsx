@@ -1,93 +1,67 @@
 import React from 'react';
-import { Text, View, Image } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 import { useTheme } from '@react-navigation/native';
 
+import { transparentize } from 'polished';
+
 import { Product } from '../../@types/products';
-import metrics from '../../styles/metrics';
 
 import { Star } from '..';
 
+import { BuyNow, Card, CardContainer, CardContent, ItemImage, Price, Title } from './styles';
+
 type Props = {
   data: Product;
+  onPress: (_data: Product) => void;
 };
 
-const Item: React.FC<Props> = ({ data }) => {
+const Item: React.FC<Props> = ({ data, onPress }) => {
   const { colors } = useTheme();
 
   return (
-    <View
+    <Card
       style={{
-        flex: 1,
-        height: 275,
-        margin: metrics.margin,
-        borderRadius: 8,
-        backgroundColor: colors.card,
+        backgroundColor: transparentize(0.5, colors.card),
       }}
+      disabled={!(data.available > 0)}
     >
-      <View>
-        <Image
-          source={{ uri: typeof data.image === 'string' ? data.image : data.image[0] }}
-          style={{
-            width: '100%',
-            height: 150,
-            backgroundColor: colors.background,
-          }}
-          resizeMode='contain'
-        />
-      </View>
-      <View
+      <ItemImage
+        source={{ uri: typeof data.image === 'string' ? data.image : data.image[0] }}
         style={{
-          height: 100,
-          paddingVertical: metrics.internalPadding / 2,
-          paddingHorizontal: metrics.internalPadding,
+          backgroundColor: colors.background,
         }}
-      >
-        <Text
-          numberOfLines={2}
-          ellipsizeMode='tail'
-          style={{ color: colors.text, fontWeight: '700', flexWrap: 'wrap' }}
-        >
+      />
+      <CardContainer>
+        <Title numberOfLines={2} style={{ color: colors.text }}>
           {data.title}
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            marginTop: metrics.margin,
-          }}
-        >
-          <Text
-            numberOfLines={1}
-            lineBreakMode='tail'
-            ellipsizeMode='tail'
-            style={{ color: colors.border, fontWeight: '800' }}
+        </Title>
+        <CardContent>
+          <Price style={{ color: colors.border }}>
+            <Price style={{ fontSize: 14 }}>R$ </Price>
+            {`${data.price.toFixed(2).replace('.', ',')}`}
+          </Price>
+
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => {
+              onPress(data);
+            }}
+            disabled={data.available < 1}
           >
-            {`R$ ${data.price.toFixed(2).replace('.', ',')}`}
-          </Text>
-          <View>
-            <Text
+            <BuyNow
               style={{
-                borderWidth: 2,
                 borderColor: colors.text,
-                padding: 6,
-                borderRadius: 20,
                 color: colors.text,
-                fontSize: 10,
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                fontWeight: '700',
-                textTransform: 'uppercase',
               }}
             >
               Compre já
-            </Text>
-          </View>
-        </View>
-      </View>
+            </BuyNow>
+          </TouchableOpacity>
+        </CardContent>
+      </CardContainer>
       <Star count={data.rating.count} rate={data.rating.rate} />
-    </View>
+    </Card>
   );
 };
 

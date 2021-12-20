@@ -16,3 +16,4 @@ const ProductsProvider: React.FC = ({ children }) => {
 };
 
 export { Context, ProductsProvider };
+export default Context;

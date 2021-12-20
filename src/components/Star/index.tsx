@@ -1,9 +1,8 @@
 import React, { memo, useMemo } from 'react';
-import { Text, View } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 import colors from '../../styles/colors';
-import metrics from '../../styles/metrics';
+import { Comment, Container } from './styles';
 
 type Props = {
   rate?: number;
@@ -34,15 +33,7 @@ const Star: React.FC<Props> = ({ rate = 0, count = 0 }) => {
   };
 
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: metrics.internalPadding / 2,
-        marginRight: metrics.internalPadding,
-        alignSelf: 'flex-end',
-      }}
-    >
+    <Container>
       {rates.map((value, index) => (
         <FontAwesomeIcon
           key={String(index)}
@@ -51,10 +42,8 @@ const Star: React.FC<Props> = ({ rate = 0, count = 0 }) => {
           color={colors.ICON_ACTIVE}
         />
       ))}
-      <Text
-        style={{ fontSize: 12, fontWeight: '500', color: colors.CARD_INACTIVE_CONTENT }}
-      >{`\t(${count})`}</Text>
-    </View>
+      <Comment>{`\t(${count})`}</Comment>
+    </Container>
   );
 };
 

@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext } from 'react';
 
-import { CartContext, CartProduct } from '../@types/cart';
+import { CartContext } from '../@types/cart';
+import { Product } from '../@types/products';
 import useCart, { INITIAL_CART } from './hooks/useCart';
 
 const Context = createContext<CartContext>({
-  addProduct: (_product: CartProduct) => {},
+  addProduct: (_product: Product) => {},
   deleteProduct: (_id: number) => {},
   cart: INITIAL_CART,
 });
@@ -17,3 +18,4 @@ const CartProvider: React.FC = ({ children }) => {
 };
 
 export { Context, CartProvider };
+export default Context;

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { Product, ProductContext, Products } from '../../@types/products';
+import { Constants } from '../../common';
 import api, { Endpoints } from '../../services/api';
 
 export const INITIAL_PRODUCTS: Products = {
@@ -11,8 +12,6 @@ export const INITIAL_PRODUCTS: Products = {
     total: 1,
   },
 };
-
-const PAGINATE_COUNT = 4;
 
 export default function useProducts(): ProductContext & Products {
   const [state, setState] = useState<Products>(INITIAL_PRODUCTS);
@@ -27,11 +26,15 @@ export default function useProducts(): ProductContext & Products {
       }));
       const { data } = await api.get<Product[]>(Endpoints.PRODUCTS);
 
+      // TODO lista de produtos inativos
+      const PRODUCTS_UNAVAILABLE = [5, 9, 12, 17];
       const _products = data
-        .slice((page - 1) * PAGINATE_COUNT, (page + 1) * PAGINATE_COUNT)
+        .slice((page - 1) * Constants.PAGINATE_COUNT, (page + 1) * Constants.PAGINATE_COUNT)
         .map((product) => ({
           ...product,
-          available: Math.floor(Math.random() * 6),
+          available: PRODUCTS_UNAVAILABLE.includes(product.id)
+            ? 0
+            : Math.floor(Math.random() * 6) + 1,
         }));
 
       setState((_state) => ({
@@ -41,7 +44,7 @@ export default function useProducts(): ProductContext & Products {
         meta: {
           // eslint-disable-next-line no-param-reassign
           page: ++page,
-          total: Math.ceil(data.length / PAGINATE_COUNT),
+          total: Math.ceil(data.length / Constants.PAGINATE_COUNT),
         },
       }));
     } catch (error) {

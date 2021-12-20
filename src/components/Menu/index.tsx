@@ -1,56 +1,42 @@
-import React from 'react';
-import { Text, Pressable, View } from 'react-native';
+import React, { useContext } from 'react';
+import { Pressable } from 'react-native';
 import FeatherIcons from 'react-native-vector-icons/Feather';
 
 import { useNavigation, useTheme } from '@react-navigation/native';
 
-import useCart from '../../contexts/hooks/useCart';
+import CartContext from '../../contexts/CartContext';
+import { Badge, Container } from './styles';
 
 type Props = {
   color?: string;
 };
 
-const Menu: React.FC<Props> = ({ color }) => {
+const Menu: React.FC<Props> = ({ color = 'black' }) => {
   const navigation = useNavigation();
   const { colors } = useTheme();
 
   const {
-    cart: { quantity },
-  } = useCart();
+    cart: { quantity: badges },
+  } = useContext(CartContext);
 
   const handlePress = () => {
-    navigation.navigate({ name: 'Cart' });
+    navigation.navigate('Cart');
   };
 
   return (
     <Pressable onPress={handlePress}>
-      <>
-        <FeatherIcons name='shopping-cart' size={24} color={color || 'black'} />
-        {quantity > 0 && (
-          <View
-            style={{
-              position: 'absolute',
-              right: -8,
-              bottom: 0,
-
-              backgroundColor: colors.notification,
-              height: 14,
-              paddingHorizontal: 4,
-              borderRadius: 7,
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Text
-              numberOfLines={1}
-              ellipsizeMode='tail'
-              style={{ fontSize: 8, fontWeight: '800', color: colors.text }}
-            >
-              {quantity > 10 ? '+10' : quantity}
-            </Text>
-          </View>
-        )}
-      </>
+      <FeatherIcons name='shopping-cart' size={24} color={color} />
+      {badges > 0 && (
+        <Container
+          style={{
+            backgroundColor: colors.notification,
+          }}
+        >
+          <Badge numberOfLines={1} ellipsizeMode='tail' style={{ color: colors.text }}>
+            {badges > 10 ? '+10' : badges}
+          </Badge>
+        </Container>
+      )}
     </Pressable>
   );
 };

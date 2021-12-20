@@ -7,8 +7,7 @@ export const Container = styled.View`
   flex-direction: row;
   align-items: center;
   justify-content: flex-end;
-  margin-right: ${Metrics.margin}px;
-  margin-bottom: ${Metrics.margin}px;
+  margin: 0 ${Metrics.margin}px ${Metrics.margin}px;
 `;
 
 export const Mode = styled.TouchableOpacity.attrs({

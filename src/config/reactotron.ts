@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { NativeModules } from 'react-native';
 import Reactotron from 'reactotron-react-native';
 
@@ -30,6 +28,9 @@ const reactotron = Reactotron.configure({
 
 console.tron = reactotron;
 console.log('[REACTOTRON] IP for Reactotron:', scriptHostname);
-console.tron.clear;
+
+if (reactotron.clear) {
+  reactotron.clear();
+}
 
 export default reactotron;

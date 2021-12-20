@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FlatList, ListRenderItem } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Product } from '../../@types/products';
+import { Constants } from '../../common';
 import { Item, Modes } from '../../components';
-import useProducts from '../../contexts/hooks/useProducts';
-import metrics from '../../styles/metrics';
+import CartContext from '../../contexts/CartContext';
+import ProductsContext from '../../contexts/ProductsContext';
+import { Metrics as metrics } from '../../styles';
 import { Container } from './styles';
 
 const Products: React.FC = () => {
-  const { loading, products, fetchProducts, meta } = useProducts();
-  const [numColumns, setNumColumns] = useState(2);
+  const { loading, products, fetchProducts, meta } = useContext(ProductsContext);
+  const { addProduct } = useContext(CartContext);
+  const [numColumns, setNumColumns] = useState(metrics.screenWidth < Constants.MIN_WIDTH ? 1 : 2);
+  const insets = useSafeAreaInsets();
 
-  const renderItem: ListRenderItem<Product> = ({ item }) => <Item data={item} />;
+  const renderItem: ListRenderItem<Product> = ({ item }) => (
+    <Item data={item} onPress={(data) => addProduct(data)} />
+  );
 
   const onReached = (page = 1) => {
     if (!loading && page <= meta.total) {
@@ -32,7 +39,7 @@ const Products: React.FC = () => {
     <Container>
       <FlatList
         key={numColumns === 1 ? '_' : '#'}
-        keyExtractor={(item) => (numColumns === 1 ? '_' : '#' + item.id)}
+        keyExtractor={(item) => (numColumns === 1 ? '_' : '#') + item.id}
         data={products}
         renderItem={renderItem}
         refreshing={loading}
@@ -44,7 +51,8 @@ const Products: React.FC = () => {
         initialNumToRender={4}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingVertical: metrics.externalPadding,
+          paddingTop: metrics.externalPadding,
+          paddingBottom: metrics.externalPadding + insets.bottom,
         }}
         ListHeaderComponent={renderHeader}
       />

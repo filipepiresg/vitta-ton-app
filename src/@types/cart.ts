@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+import { Product } from './products';
 
 export interface Cart {
   products: CartProduct[];
@@ -17,6 +17,6 @@ export interface CartProduct {
 
 export interface CartContext {
   deleteProduct: (id: number, quantity?: number) => void;
-  addProduct: (product: CartProduct, quantity?: number) => void;
+  addProduct: (product: Product, quantity?: number) => void;
   cart: Cart;
 }

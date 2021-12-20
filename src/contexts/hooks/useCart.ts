@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { findIndex } from 'lodash';
 
-import { Cart, CartProduct } from '../../@types/cart';
+import { Cart, CartContext } from '../../@types/cart';
+import { Product } from '../../@types/products';
 
 export const INITIAL_CART: Cart = {
   products: [],
@@ -10,8 +11,10 @@ export const INITIAL_CART: Cart = {
   quantity: 0,
 };
 
-export default function useCart() {
+export default function useCart(): CartContext {
   const [cart, setCart] = useState<Cart>(INITIAL_CART);
+
+  const deepsString = useMemo(() => JSON.stringify(cart.products), [cart]);
 
   useEffect(() => {
     const amount = cart.products.reduce(
@@ -22,16 +25,17 @@ export default function useCart() {
     const quantity = cart.products.reduce((value, product) => value + product.quantity, 0);
 
     setCart((state) => ({ ...state, amount, quantity }));
-  }, [cart.products]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deepsString]);
 
-  const addProduct = (product: CartProduct, quantity = 1) => {
+  const addProduct = (product: Product, quantity = 1) => {
     const { products } = cart;
     const index = findIndex(products, { id: product.id });
 
     if (index >= 0) {
       products[index].quantity += quantity;
     } else {
-      products.push(product);
+      products.push({ ...product, quantity });
     }
 
     setCart((state) => ({ ...state, products }));
