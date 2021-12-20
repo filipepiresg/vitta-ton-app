@@ -1,13 +1,12 @@
 import React, { createContext } from 'react';
 
-import { ProductContext } from '../@types/products';
-import useProducts from './hooks/useProducts';
+import { ProductContext, Products } from '../@types/products';
+import useProducts, { INITIAL_PRODUCTS } from './hooks/useProducts';
 
-const Context = createContext<ProductContext>({
+const Context = createContext<ProductContext & Products>({
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   fetchProducts: () => {},
-  products: [],
-  loading: true,
+  ...INITIAL_PRODUCTS,
 });
 
 const ProductsProvider: React.FC = ({ children }) => {

@@ -11,6 +11,15 @@ export type Product = {
   };
 };
 
+export type Products = {
+  loading: boolean;
+  products: Product[];
+  meta: {
+    page: number;
+    total: number;
+  };
+};
+
 export interface ProductContext {
   fetchProducts: (_page?: number) => void;
   loading: boolean;

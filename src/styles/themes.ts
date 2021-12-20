@@ -21,7 +21,7 @@ export const DarkTheme: Theme = {
     primary: colors.SECONDARY,
     text: colors.PRIMARY,
     border: colors.CARD_ACTIVE_TITLE,
-    card: colors.CONFIG_TITLE,
+    card: colors.CARD_ACTIVE,
     notification: colors.ICON_ACTIVE,
   },
 };

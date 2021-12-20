@@ -9,7 +9,12 @@ import { Menu } from '../components';
 import { Products, Cart } from '../pages';
 import { DarkTheme, DefaultTheme } from '../styles/themes';
 
-const Stack = createNativeStackNavigator();
+export type RootStackParamList = {
+  Products: undefined;
+  Cart: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export default function Router() {
   const scheme = useColorScheme();

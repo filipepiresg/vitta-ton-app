@@ -26,7 +26,7 @@ const Menu: React.FC<Props> = ({ color }) => {
     <Pressable onPress={handlePress}>
       <>
         <FeatherIcons name='shopping-cart' size={24} color={color || 'black'} />
-        {quantity >= 0 && (
+        {quantity > 0 && (
           <View
             style={{
               position: 'absolute',
@@ -42,6 +42,7 @@ const Menu: React.FC<Props> = ({ color }) => {
             }}
           >
             <Text
+              numberOfLines={1}
               ellipsizeMode='tail'
               style={{ fontSize: 8, fontWeight: '800', color: colors.text }}
             >
