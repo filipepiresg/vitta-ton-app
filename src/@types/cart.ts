@@ -6,17 +6,13 @@ export interface Cart {
   quantity: number;
 }
 
-export interface CartProduct {
-  id: number;
-  title: string;
-  description: string;
-  price: number;
-  image: string | string[];
+export interface CartProduct extends Product {
   quantity: number;
 }
 
 export interface CartContext {
   deleteProduct: (id: number, quantity?: number) => void;
   addProduct: (product: Product, quantity?: number) => void;
+  buyCart: () => void;
   cart: Cart;
 }

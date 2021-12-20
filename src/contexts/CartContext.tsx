@@ -8,6 +8,7 @@ import useCart, { INITIAL_CART } from './hooks/useCart';
 const Context = createContext<CartContext>({
   addProduct: (_product: Product) => {},
   deleteProduct: (_id: number) => {},
+  buyCart: () => {},
   cart: INITIAL_CART,
 });
 

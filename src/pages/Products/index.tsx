@@ -4,7 +4,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Product } from '../../@types/products';
 import { Constants } from '../../common';
-import { Item, Modes } from '../../components';
+import { CardProduct, Modes } from '../../components';
 import CartContext from '../../contexts/CartContext';
 import ProductsContext from '../../contexts/ProductsContext';
 import { Metrics as metrics } from '../../styles';
@@ -17,7 +17,7 @@ const Products: React.FC = () => {
   const insets = useSafeAreaInsets();
 
   const renderItem: ListRenderItem<Product> = ({ item }) => (
-    <Item data={item} onPress={(data) => addProduct(data)} />
+    <CardProduct data={item} onPress={(data) => addProduct(data)} />
   );
 
   const onReached = (page = 1) => {
@@ -45,6 +45,7 @@ const Products: React.FC = () => {
         refreshing={loading}
         onRefresh={fetchProducts}
         numColumns={numColumns}
+        style={{ flex: 1 }}
         horizontal={false}
         onEndReachedThreshold={0.5}
         onEndReached={() => onReached(meta.page + 1)}

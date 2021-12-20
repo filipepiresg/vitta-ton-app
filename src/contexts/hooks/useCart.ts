@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 
+import RNAsyncStorage from '@react-native-async-storage/async-storage';
+
 import { findIndex } from 'lodash';
 
 import { Cart, CartContext } from '../../@types/cart';
 import { Product } from '../../@types/products';
+import { Constants } from '../../common';
 
 export const INITIAL_CART: Cart = {
   products: [],
@@ -11,10 +14,26 @@ export const INITIAL_CART: Cart = {
   quantity: 0,
 };
 
+const CART_MEMORY = Constants.APP_NAME + '/cart';
+
 export default function useCart(): CartContext {
   const [cart, setCart] = useState<Cart>(INITIAL_CART);
 
   const deepsString = useMemo(() => JSON.stringify(cart.products), [cart]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const _cart = await RNAsyncStorage.getItem(CART_MEMORY);
+        if (_cart) {
+          setCart(JSON.parse(_cart));
+        }
+      } catch (error) {
+        console.log('Error on get cart');
+        console.log(error);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     const amount = cart.products.reduce(
@@ -24,7 +43,12 @@ export default function useCart(): CartContext {
 
     const quantity = cart.products.reduce((value, product) => value + product.quantity, 0);
 
-    setCart((state) => ({ ...state, amount, quantity }));
+    setCart((state) => {
+      const newState = { ...state, amount, quantity };
+      RNAsyncStorage.setItem(CART_MEMORY, JSON.stringify(newState));
+      return newState;
+    });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deepsString]);
 
@@ -60,5 +84,10 @@ export default function useCart(): CartContext {
     setCart((state) => ({ ...state, products }));
   };
 
-  return { cart, deleteProduct, addProduct };
+  const buyCart = () => {
+    setCart({ products: [], amount: 0, quantity: 0 });
+    RNAsyncStorage.clear();
+  };
+
+  return { cart, deleteProduct, addProduct, buyCart };
 }

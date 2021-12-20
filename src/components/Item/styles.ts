@@ -1,58 +1,86 @@
+import { transparentize } from 'polished';
 import styled from 'styled-components/native';
 
-import { Metrics } from '../../styles';
+import { Metrics, Colors } from '../../styles';
 
-export const Card = styled.View<{ disabled: boolean }>`
-  flex: 1;
-  height: 260px;
-  margin: ${Metrics.margin}px;
-  border-radius: 8px;
-  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+export const Container = styled.View`
+  width: 100%;
+  height: 100px;
+  border-width: 1px;
+  border-radius: 10px;
+  flex-direction: row;
 `;
 
-export const ItemImage = styled.Image.attrs({
+export const ImageProduct = styled.Image.attrs({
   resizeMode: 'contain',
 })`
-  width: 100%;
-  height: 150px;
+  width: 100px;
+  height: 90%;
+  overflow: hidden;
+  padding: 10px 5px;
+  align-self: center;
 `;
 
-export const CardContainer = styled.View`
-  height: 85px;
-  padding: ${Metrics.internalPadding / 2}px ${Metrics.internalPadding}px;
-`;
-
-export const CardContent = styled.View`
+export const Content = styled.View`
   flex: 1;
+  padding: ${Metrics.internalPadding / 2}px ${Metrics.internalPadding}px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+`;
+
+export const Title = styled.Text.attrs({
+  numberOfLines: 2,
+})`
+  font-size: 14px;
+  font-weight: 700;
+`;
+
+export const Body = styled.View`
+  flex: 1;
+  align-items: flex-end;
+  margin-bottom: 5px;
   flex-direction: row;
   justify-content: space-between;
-  align-items: flex-end;
-  margin-top: ${Metrics.margin}px;
 `;
 
-const Text = styled.Text.attrs(({ numberOfLines = 1 }) => ({
-  numberOfLines,
-  lineBreakMode: 'tail',
-  ellipsizeMode: 'tail',
-}))``;
-
-export const Title = styled(Text)`
-  font-weight: 700;
-  flex-wrap: wrap;
+export const Value = styled.Text`
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
 `;
 
-export const Price = styled(Text)`
+export const Cod = styled.Text`
+  font-size: 12px;
+  font-weight: 500;
+`;
+
+export const UnitsContainer = styled.View`
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #fff;
+`;
+
+export const UnitsText = styled.Text`
+  color: #000;
+  font-size: 12px;
   font-weight: 800;
-  font-size: 16px;
 `;
 
-export const BuyNow = styled(Text)`
-  border-width: 1.7px;
-  padding: 6px;
-  border-radius: 20px;
-  font-size: 10px;
-  text-align: center;
-  text-align-vertical: center;
-  font-weight: 700;
-  text-transform: uppercase;
+export const Button = styled.TouchableOpacity.attrs({
+  activeOpacity: 0.8,
+})<{
+  isLeft?: boolean;
+  isRight?: boolean;
+}>`
+  padding: 10px 0;
+  min-width: 20px;
+  background-color: ${({ disabled }) =>
+    transparentize(!disabled ? 0 : 0.5, Colors.CONFIG_BUTTON_TITLE)};
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: ${({ isLeft }) => (isLeft ? 6 : 0)}px;
+  border-top-right-radius: ${({ isRight }) => (isRight ? 6 : 0)}px;
+  border-bottom-left-radius: ${({ isLeft }) => (isLeft ? 6 : 0)}px;
+  border-bottom-right-radius: ${({ isRight }) => (isRight ? 6 : 0)}px;
 `;

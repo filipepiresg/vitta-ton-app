@@ -13,6 +13,7 @@ export const Container = styled.View`
 `;
 
 export const Badge = styled.Text`
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 800;
+  text-align-vertical: center;
 `;
