@@ -49,7 +49,6 @@ const Products: React.FC = () => {
         horizontal={false}
         onEndReachedThreshold={0.5}
         onEndReached={() => onReached(meta.page + 1)}
-        initialNumToRender={4}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingTop: metrics.externalPadding,
