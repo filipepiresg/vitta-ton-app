@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import SplashScreen from 'react-native-splash-screen';
 
 import RNAsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,6 +32,8 @@ export default function useCart(): CartContext {
       } catch (error) {
         console.log('Error on get cart');
         console.log(error);
+      } finally {
+        SplashScreen.hide();
       }
     })();
   }, []);
